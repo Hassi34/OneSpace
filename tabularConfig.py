@@ -20,7 +20,7 @@ model_name = "my_test_model"
 experiment_name = "light model testing"
 plot_name = "results_plot"
 
-#logs (Directory names to record logs, can be customized according to the user requirements):
+#logs (Directory names to record logs, can be customized according to the user requirements)
 logs_dir = "Logs"
 csv_logs_dir = "CSV Logs"
 csv_logs_file = "cv_test_logs.csv"
