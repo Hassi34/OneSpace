@@ -277,7 +277,7 @@ class Experiment:
         print("*****" * 13)
         print(f"\n ==> {path_to_plot_result}\n")
         self.record_logs()
-        print(f"\n************* Kudos, experiment compeleted successfully! ************\n")
+        print(f"\n************* Kudos, Experiment compeleted successfully! ************\n")
     
     def record_logs(self):
         logs_header = ['Experiment ID','Exeriment Name', 'Executed By', 'Local Date Time','UTC Date Time', 'Optimizer',

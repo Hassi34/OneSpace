@@ -288,7 +288,7 @@ class Experiment:
         except Exception as e:
             raise e
         finally:
-            print(f"\n************* Kudos, experiment compeleted successfully! ************\n")
+            print(f"\n************* Kudos, Experiment compeleted successfully! ************\n")
     
     def print_classwise_img_count(self):
         """
