@@ -142,3 +142,4 @@ data_folder
 requirements.txt
 *.pkl
 cachedir
+*.ipynb
