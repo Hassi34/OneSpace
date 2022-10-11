@@ -9,10 +9,10 @@ import uuid
 
 import numpy as np
 import pandas as pd
-from onespace.dbOps.mongo.mongoExe import save_logs_in_mongo
-from onespace.dbOps.mysql.mysqlExe import save_logs_in_mysql
 from sklearn.model_selection import train_test_split
 
+from ...dbOps.mongo.mongoExe import save_logs_in_mongo
+from ...dbOps.mysql.mysqlExe import save_logs_in_mysql
 from .common import (drop_zero_std, get_data_and_features, get_targets,
                      get_unique_filename, keep_or_drop_id, remove_outliers_z)
 from .logs import save_preprocessed_data
