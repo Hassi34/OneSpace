@@ -43,7 +43,7 @@ pip install onespace
 Get the **[config.py](https://github.com/Hassi34/onespace/blob/main/tabularConfig.py)** and **[training.py](https://github.com/Hassi34/onespace/blob/main/training.py)** files ready. You can get it from this repo or from the following tutorials section. 
 * Prepare ``training.py``
 ```bash
-import config # Incase, you renamed config.py to something else, make sure to use the same name here
+import config # In case, you renamed config.py to something else, make sure to use the same name here
 from src.onespace.tabular.regression import Experiment # Importing Experiment class to train a regression model
 
 def training(config):
