@@ -1,4 +1,6 @@
-#params
+#--------------------------------------------------------------------------------------------------------------------------------
+# Parameters
+#--------------------------------------------------------------------------------------------------------------------------------
 data_dir = "data_folder"
 train_folder_name = "train"
 val_folder_name = "val"
@@ -17,7 +19,10 @@ validation_split = 0.20
 grad_clip = 1                        # Should be a value ranging from 0.5 to 1.0 OR None
 weight_decay = 0.001                 # Should be a value ranging from 0.5 to 1.0
 
-#artifacts:
+#--------------------------------------------------------------------------------------------------------------------------------
+# Artifacts (Directory names to store the results & resources, can be customized according to the user requirements)
+#--------------------------------------------------------------------------------------------------------------------------------
+project_name = 'cvpytorch'
 artifacts_dir = "Artifacts"
 model_dir = "Models"
 plots_dir = "Plots"
@@ -27,11 +32,21 @@ plot_name = "results_plot"
 model_ckpt_dir = "Model Checkpoints"
 callbacked_model_name = "model_ckpt"
 
-#logs:
+#--------------------------------------------------------------------------------------------------------------------------------
+# Logs (Directory names to record logs, can be customized according to the user requirements)
+#--------------------------------------------------------------------------------------------------------------------------------
 logs_dir = "Logs"
 tensorboard_root_log_dir = "Tensorboard Logs"
 csv_logs_dir = "CSV Logs"
 csv_logs_file = "cv_test_logs.csv"
 comments = "this is comments"
 executed_by = 'hassii'
+
+#--------------------------------------------------------------------------------------------------------------------------------
+# Database Integration
+#--------------------------------------------------------------------------------------------------------------------------------
+# Please Note that before making any change in this section, create a .env file and store the mongo db connection string or MySQL credentials in the environment variables 
+# Guideline for creating .env is available on project description main page
+db_integration_mysql = False
+db_integration_mongodb = False 
 

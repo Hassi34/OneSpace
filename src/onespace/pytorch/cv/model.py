@@ -1,6 +1,6 @@
 """
-Author : Hasnain Mehmood
-Contact : hasnainmehmood3435@gmail.com 
+Author : Hasanain Mehmood
+Contact : hasanain@aicaliber.com 
 """
 
 import os
@@ -24,6 +24,8 @@ import sys
 from torch.utils.tensorboard import SummaryWriter
 import tensorboard as tb
 import tensorflow as tf
+from ...dbOps.mongo.mongoExe import save_logs_in_mongo
+from ...dbOps.mysql.mysqlExe import save_logs_in_mysql
 
 
 class Experiment:
@@ -45,6 +47,7 @@ class Experiment:
         self.GRAD_CLIP = config.grad_clip
 
         self.data_dir = os.path.join(".",config.data_dir)
+        self.project_name = config.project_name
         self.TransferLearning  = config.transfer_learning
         self.model_ckpt_dir = config.model_ckpt_dir
         self.artifacts_dir = config.artifacts_dir
@@ -62,13 +65,15 @@ class Experiment:
         self.experiment_name = config.experiment_name
         self.comments = config.comments
         self.executed_by = config.executed_by
+        self.db_integration_mysql = config.db_integration_mysql
+        self.db_integration_mongodb = config.db_integration_mongodb
     
     def run_experiment(self):
         """This method will start an experiment
            with variables provided at initialization
-            Written by : Hasnain
+            Written by : Hasanain
         """
-        self.parent_dir = os.path.join("ComputerVision", "PyTorch") 
+        self.parent_dir = os.path.join("ComputerVision", "PyTorch", self.project_name) 
         if self.train_folder_name is not None:
             self.train_dir = os.path.join(self.data_dir ,self.train_folder_name)
             self.val_dir = os.path.join(self.data_dir ,self.val_folder_name)
@@ -277,8 +282,7 @@ class Experiment:
         print("*****" * 13)
         print(f"\n ==> {path_to_plot_result}\n")
         self.record_logs()
-        print(f"\n************* Kudos, Experiment compeleted successfully! ************\n")
-    
+
     def record_logs(self):
         logs_header = ['Experiment ID','Exeriment Name', 'Executed By', 'Local Date Time','UTC Date Time', 'Optimizer',
         'Epochs', '% Validation Split','Image Dimensions','Batch Size', 'Data Augmentation', 'Model Architechture',
@@ -287,11 +291,11 @@ class Experiment:
         
         history_values = [self.history[col_name].tolist()[-1] for col_name in self.history.columns.tolist()]
         
-        logs_data = [uuid.uuid4(),self.experiment_name, self.executed_by, datetime.datetime.now(), datetime.datetime.utcnow(),
-        self.OPTIMIZER,self.EPOCHS, (self.VALIDATION_SPLIT)*100, self.IMAGE_SIZE, self.BATCH_SIZE,
+        logs_data = [str(uuid.uuid4()),self.experiment_name, self.executed_by, datetime.datetime.now(), datetime.datetime.utcnow(),
+        self.OPTIMIZER,self.EPOCHS, (self.VALIDATION_SPLIT)*100, f"{self.IMAGE_SIZE}", self.BATCH_SIZE,
          self.DATA_AUGMENTATION, self.MODEL_ARCHITECTURE, self.training_images_count, self.val_images_count,
-        self.NUM_CLASSES, tuple(self.class_names), self.GRAD_CLIP, self.WEIGHT_DECAY] + history_values + [self.training_time, self.comments] 
-        
+        self.NUM_CLASSES, str(tuple(self.class_names)), self.GRAD_CLIP, f"{self.WEIGHT_DECAY}"] + history_values + [self.training_time, self.comments] 
+    
         self.csv_logs_dir = os.path.join(self.parent_dir, self.logs_dir, self.csv_logs_dir_name)
         os.makedirs(self.csv_logs_dir, exist_ok=True)
         csv_logs_file = os.path.join(self.csv_logs_dir, self.csv_logs_file)
@@ -301,7 +305,28 @@ class Experiment:
             if os.stat(csv_logs_file).st_size == 0:
                 writer.writerow(logs_header)
             writer.writerow(logs_data)
-
+        logs_data[-3] = str(logs_data[-3])
+        if self.db_integration_mongodb:
+            try:
+                save_logs_in_mongo(self.project_name, dict(zip(logs_header, logs_data)))
+            except:
+                print("!!! Could not record Logs in MongoDB, Please check the connection string and premissions one again")
+            finally:
+                pass
+        if self.db_integration_mysql:
+            try:
+                save_logs_in_mysql(data = logs_data, columns=logs_header, project_name=self.project_name)
+            except Exception as e:
+                raise e
+                print("!!! Could not record Logs in MySQL, Please check the credentials and premissions one again")
+            finally:
+                pass
+        print("\n")
+        print("*****" * 13)
+        print(f'Final CSV logs has been saved at the following location')
+        print("*****" * 13)
+        print(f"\n ==> {csv_logs_file}\n")
+        print(f"\n************* Kudos, Experiment compeleted successfully! ************\n")
     def save_image_grid(self):
         """
         Returns:

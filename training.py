@@ -1,5 +1,5 @@
 import tabularConfig
-from src.onespace.tabular.classification.model import Experiment
+from onespace.tabular.regression import Experiment
 
 
 def training(config):

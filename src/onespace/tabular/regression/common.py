@@ -147,16 +147,3 @@ def keep_or_drop_id(cat_data, auto=True):
                 return ([], cat_data.columns.tolist())
     except TypeError:
         return ([], [])
-
-
-def sort_by(metrics):
-    if metrics == "accuracy":
-        return "acc_val"
-    elif metrics == "f1_score":
-        return "f1_val"
-    elif metrics == "recall":
-        return "recall_val"
-    elif metrics == "precision":
-        return "precision_val"
-    else:
-        raise ValueError('"{}" is not a valid metrics'.format(metrics))

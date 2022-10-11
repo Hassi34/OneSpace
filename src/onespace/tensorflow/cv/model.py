@@ -1,6 +1,6 @@
 """
 Author : Hasnain Mehmood
-Contact : hasnainmehmood3435@gmail.com 
+Contact : hasanain@aicaliber.com 
 """
 import tensorflow as tf 
 import os
@@ -16,6 +16,8 @@ import uuid
 import datetime
 import csv
 import random
+from ...dbOps.mongo.mongoExe import save_logs_in_mongo
+from ...dbOps.mysql.mysqlExe import save_logs_in_mysql
 
 class Experiment:
     """ This class shall be used to train a Convolutional Neural Network and 
@@ -41,6 +43,7 @@ class Experiment:
         self.LR_SCHEDULER = config.lr_scheduler
 
         self.data_dir = os.path.join(".",config.data_dir)
+        self.project_name = config.project_name
         self.TransferLearning  = config.transfer_learning
         self.model_ckpt_dir = config.model_ckpt_dir
         self.artifacts_dir = config.artifacts_dir
@@ -58,13 +61,15 @@ class Experiment:
         self.experiment_name = config.experiment_name
         self.comments = config.comments
         self.executed_by = config.executed_by
+        self.db_integration_mysql = config.db_integration_mysql
+        self.db_integration_mongodb = config.db_integration_mongodb
 
     def run_experiment(self):
         """This method will start an experiment
            with variables provided at initialization
             Written by : Hasnain
         """
-        self.parent_dir = os.path.join("ComputerVision", "TensorFlow")
+        self.parent_dir = os.path.join("ComputerVision", "TensorFlow", self.project_name)
         set_memory_growth()
 
         if not isinstance(self.train_folder_name , type(None)):
@@ -326,11 +331,11 @@ class Experiment:
         
         history_values = [round(value[-1],4) for value in self.history.history.values()]
         
-        logs_data = [uuid.uuid4(),self.experiment_name, self.executed_by, datetime.datetime.now(), datetime.datetime.utcnow(),
-         self.ACTIVATION, self.ACTIVATION_OUTPUT, self.LOSS_FUNCTION, self.OPTIMIZER, self.METRICS,
-         self.EPOCHS, self.ES_PATIENCE, (self.VALIDATION_SPLIT)*100, self.IMAGE_SIZE, self.BATCH_SIZE,
+        logs_data = [str(uuid.uuid4()),self.experiment_name, self.executed_by, datetime.datetime.now(), datetime.datetime.utcnow(),
+         self.ACTIVATION, self.ACTIVATION_OUTPUT, self.LOSS_FUNCTION, self.OPTIMIZER, f"{self.METRICS}",
+         self.EPOCHS, self.ES_PATIENCE, (self.VALIDATION_SPLIT)*100, f"{self.IMAGE_SIZE}", self.BATCH_SIZE,
          self.DATA_AUGMENTATION, self.MODEL_ARCHITECTURE, self.FREEZE_ALL, self.FREEZ_TILL, training_images, val_images,
-        self.NUM_CLASSES, classes] + history_values + [self.training_time, self.comments] 
+        self.NUM_CLASSES, f"{classes}"] + history_values + [self.training_time, self.comments] 
         
         self.csv_logs_dir = os.path.join(self.parent_dir, self.logs_dir, self.csv_logs_dir_name)
         os.makedirs(self.csv_logs_dir, exist_ok=True)
@@ -341,6 +346,28 @@ class Experiment:
             if os.stat(csv_logs_file).st_size == 0:
                 writer.writerow(logs_header)
             writer.writerow(logs_data)
+
+        if self.db_integration_mongodb:
+            try:
+                save_logs_in_mongo(self.project_name, dict(zip(logs_header, logs_data)))
+            except Exception as e:
+                raise e
+                #print("!!! Could not record Logs in MongoDB, Please check the connection string and premissions one again")
+            finally:
+                pass
+        if self.db_integration_mysql:
+            try:
+                save_logs_in_mysql(data = logs_data, columns=logs_header, project_name=self.project_name)
+            except Exception as e:
+                raise e
+                #print("!!! Could not record Logs in MySQL, Please check the credentials and premissions one again")
+            finally:
+                pass
+        print("\n")
+        print("*****" * 13)
+        print(f'Final CSV logs has been saved at the following location')
+        print("*****" * 13)
+        print(f"\n ==> {csv_logs_file}\n")
 
     def save_image_grid(self):
         """

@@ -9,14 +9,12 @@ import uuid
 
 import numpy as np
 import pandas as pd
-from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
 
 from ...dbOps.mongo.mongoExe import save_logs_in_mongo
 from ...dbOps.mysql.mysqlExe import save_logs_in_mysql
 from .common import (drop_zero_std, get_data_and_features, get_targets,
-                     get_unique_filename, keep_or_drop_id, remove_outliers_z,
-                     sort_by)
+                     get_unique_filename, keep_or_drop_id, remove_outliers_z)
 from .logs import save_preprocessed_data
 from .model_training import TrainingFlow
 from .param_selection import get_imputers, get_scaler
@@ -24,8 +22,8 @@ from .plot import Plots
 
 
 class Experiment:
-    """ This class shall be used to train a model for a classification problem 
-        and save the complete logs and data associated with it
+    """ This class shall be used to train a model for a regression problem 
+        Runs the end-to-end training job and records the logs of the experiment
         Written by : Hasnain
     """
 
@@ -40,7 +38,6 @@ class Experiment:
         self.SCALER = config.scaler
         self.IMPUTER = config.imputer
         self.POLY = config.PloynomialFeatures
-        self.HANDLE_IMBALANCE = config.handle_imbalance
         self.PCA = config.pca
         self.RFE = config.feature_selection
         self.RM_OUTLIERS = config.remove_outliers
@@ -67,14 +64,13 @@ class Experiment:
            Written by : Hasanain
         """
         self.parent_dir = os.path.join(
-            'Tabular', 'Classification', self.project_name)
+            'Tabular', 'Regression', self.project_name)
         data = pd.read_csv(self.data_dir)
         print("\n")
         print("*****" * 13)
         print('Data Description')
         print("*****" * 13)
         print(data.describe(include='all').T)
-
         data = drop_zero_std(data)
         data, self.cat_features, self.num_features = get_data_and_features(
             data, self.AUTO)
@@ -105,7 +101,7 @@ class Experiment:
 
         self.scaler = get_scaler(self.SCALER)
         self.num_imputer, self.cat_imputer = get_imputers(self.IMPUTER)
-        self.sort_by = sort_by(self.METRICS)
+        self.sort_by = self.METRICS+"_val"
         targets = data.pop(self.TARGET)
 
         self.num_features = data.select_dtypes(
@@ -113,29 +109,20 @@ class Experiment:
         targets, target_names = get_targets(targets)
 
         self.X_train, self.X_val, self.y_train,  self.y_val = train_test_split(
-            data, targets, test_size=self.VALIDATION_SPLIT, stratify=targets, random_state=42)
+            data, targets, test_size=self.VALIDATION_SPLIT, random_state=42)
 
-        if self.HANDLE_IMBALANCE:
-            self.X_train = self.prep_for_smote(self.X_train)
-            self.X_val = self.prep_for_smote(self.X_val)
-            oversample = SMOTE()
-            self.X_train, self.y_train = oversample.fit_resample(
-                self.X_train, self.y_train)
-            self.cat_features = self.X_train.select_dtypes(
-                include=['category', 'object']).columns.tolist()
-            self.num_features = self.X_train.select_dtypes(
-                include=np.number).columns.tolist()
-
-        training_flow = TrainingFlow(self.id_col, self.num_features, self.cat_features, target_names, self.METRICS,
-                                     self.num_imputer, self.cat_imputer, self.scaler, self.X_train, self.X_val, self.y_train, self.y_val, self.HANDLE_IMBALANCE,
-                                     self.parent_dir, self.plots_dir, self.pipelines_dir, self.artifacts_dir, self.AUTO, self.PCA, self.POLY, self.RFE, self.sort_by)
+        training_flow = TrainingFlow(self.id_col, self.num_features, self.cat_features, self.METRICS, self.num_imputer,
+                                     self.cat_imputer, self.scaler, self.X_train, self.X_val, self.y_train, self.y_val,
+                                     self.parent_dir, self.plots_dir, self.logs_dir, self.pipelines_dir, self.artifacts_dir,
+                                     self.AUTO, self.PCA, self.POLY, self.RFE, self.sort_by)
         self.prep_pipeline = training_flow.prep_pipeline()
         self.preprocessing()
-        training_flow.compare_classifiers()
+        training_flow.compare_regressors()
         training_flow.compare_before_tuning()
         training_flow.base_model_report()
         training_flow.get_best_model()
         self.best_model, self.best_score, self.training_time = training_flow.hyper_param_tuninig_run()
+        training_flow.compare_after_tuning()
         self.record_logs()
 
     def preprocessing(self):
@@ -158,27 +145,14 @@ class Experiment:
         save_preprocessed_data(
             transformed_data, self.parent_dir, self.logs_dir)
 
-    def prep_for_smote(self, df):
-        if len(self.cat_features) > 0:
-            encoded_data = pd.get_dummies(df[self.cat_features])
-            df = pd.concat([df, encoded_data], axis=1)
-            df.drop(columns=self.cat_features+self.id_col, inplace=True)
-        if len(self.id_col) > 0:
-            if self.id_col[0] in df.columns.tolist():
-                df.drop(columns=self.id_col, inplace=True)
-        X_train_cols = df.columns.tolist()
-        df = self.num_imputer.fit_transform(df)
-        df = pd.DataFrame(df, columns=X_train_cols)
-        return df
-
     def record_logs(self):
         logs_header = ['Experiment ID', 'Exeriment Name', 'Executed By', 'Local Date Time', 'UTC Date Time', 'Target Column',
-                       'Metrics', 'Validation Split', 'Auto Pilot', 'EDA', 'SCALER', 'IMPUTER', 'Remove Outliers', 'Polynomial Features', 'Handle Imbalance',
+                       'Metrics', 'Validation Split', 'Auto Pilot', 'EDA', 'SCALER', 'IMPUTER', 'Remove Outliers', 'Polynomial Features',
                        'Recursive Feature Elimination', 'PCA', 'Best Model', 'Best Score', 'Training Time', 'Comments']
 
         logs_data = [str(uuid.uuid4()), self.experiment_name, self.executed_by, datetime.datetime.now(), datetime.datetime.utcnow(),
                      self.TARGET, self.METRICS, self.VALIDATION_SPLIT, self.AUTO, self.EDA,
-                     self.SCALER, self.IMPUTER, self.RM_OUTLIERS, self.POLY, self.HANDLE_IMBALANCE, self.RFE,
+                     self.SCALER, self.IMPUTER, self.RM_OUTLIERS, self.POLY, self.RFE,
                      self.PCA, self.best_model, self.best_score, self.training_time, self.comments]
 
         csv_logs_dir_final = os.path.join(
