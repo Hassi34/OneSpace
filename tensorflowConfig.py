@@ -49,5 +49,7 @@ executed_by = 'hasnain'
 #--------------------------------------------------------------------------------------------------------------------------------
 # Please Note that before making any change in this section, create a .env file and store the mongo db connection string or MySQL credentials in the environment variables 
 # Guideline for creating .env is available on project description main page
-db_integration_mysql = False
-db_integration_mongodb = False 
+from dotenv import load_dotenv
+load_dotenv()
+db_integration_mysql = True
+db_integration_mongodb = True 

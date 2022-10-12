@@ -22,7 +22,7 @@ weight_decay = 0.001                 # Should be a value ranging from 0.5 to 1.0
 #--------------------------------------------------------------------------------------------------------------------------------
 # Artifacts (Directory names to store the results & resources, can be customized according to the user requirements)
 #--------------------------------------------------------------------------------------------------------------------------------
-project_name = 'cvpytorch'
+project_name = 'cvpytorch1'
 artifacts_dir = "Artifacts"
 model_dir = "Models"
 plots_dir = "Plots"
@@ -40,13 +40,15 @@ tensorboard_root_log_dir = "Tensorboard Logs"
 csv_logs_dir = "CSV Logs"
 csv_logs_file = "cv_test_logs.csv"
 comments = "this is comments"
-executed_by = 'hassii'
+executed_by = 'Hasnain'
 
 #--------------------------------------------------------------------------------------------------------------------------------
 # Database Integration
 #--------------------------------------------------------------------------------------------------------------------------------
 # Please Note that before making any change in this section, create a .env file and store the mongo db connection string or MySQL credentials in the environment variables 
 # Guideline for creating .env is available on project description main page
-db_integration_mysql = False
-db_integration_mongodb = False 
+from dotenv import load_dotenv
+load_dotenv()
+db_integration_mysql = True
+db_integration_mongodb = True 
 

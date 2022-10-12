@@ -30,7 +30,7 @@ class Plots(object):
         plt_path = os.path.join(self.eda_dir, "countplot")
         plt.savefig(plt_path)
 
-        plt = self.eda.barplot(y="charges")
+        plt = self.eda.barplot(y=self.target)
         plt_path = os.path.join(self.eda_dir, "barplot")
         plt.savefig(plt_path)
 
