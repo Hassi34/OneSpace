@@ -673,8 +673,8 @@ db_integration_mongodb = False
 ``` 
 * ``training.py``<br>
 ```python
-import tensorflowConfig
-from onespace.tensorflow.cv import Experiment
+import pytorchConfig
+from onespace.pytorch.cv import Experiment
 
 
 def training(config):
@@ -683,7 +683,7 @@ def training(config):
 
 
 if __name__ == "__main__":
-    training(tensorflowConfig)
+    training(pytorchConfig)
 ```
 Run the following command on the terminal to start the training job
 ```bash
