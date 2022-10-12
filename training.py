@@ -1,5 +1,5 @@
-import pytorchConfig
-from onespace.pytorch.cv import Experiment
+import tabularConfig
+from onespace.tabular.regression import Experiment
 
 def training(config):
     exp = Experiment(config)
@@ -7,4 +7,4 @@ def training(config):
 
 
 if __name__ == "__main__":
-    training(pytorchConfig)
+    training(tabularConfig)
