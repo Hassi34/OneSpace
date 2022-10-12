@@ -154,7 +154,7 @@ db_integration_mongodb = False
 * ``training.py``<br>
 ```python
 import tabularConfig
-from onespace.tabular.classification import Experiment
+from onespace.tabular.regression import Experiment
 
 
 def training(config):
@@ -301,7 +301,7 @@ db_integration_mongodb = False
 * ``training.py``<br>
 ```python
 import tabularConfig
-from onespace.tabular.regression import Experiment
+from onespace.tabular.classification import Experiment
 
 
 def training(config):
