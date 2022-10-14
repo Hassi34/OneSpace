@@ -81,9 +81,9 @@ def get_data_and_features(df, auto):
     print(f'==> Categorical Columns : {cat_features}\n')
     if auto == False:
         usr_rsp = input(
-            '   == Please type "yes" if you agree with the above selection otherwise, type "no" : ')
+            '   ** Please type "yes" if you agree with the above selection otherwise, type "no" : ')
         if usr_rsp.title() == "Yes":
-            print(f'    == Continuing with default selection...')
+            print(f'    ** Continuing with default selection...')
         elif usr_rsp.title() == "No":
             num_features = input(
                 "Enter a list of numerical columns, hit enter if there are none : ")
@@ -101,8 +101,8 @@ def get_data_and_features(df, auto):
                     '"', '')).strip() for element in num_features]
             else:
                 num_features = []
-            print(f'\n    == Numerical Columns Selected : {num_features}')
-            print(f'    == Categorical Columns Selected : {cat_features}\n')
+            print(f'\n    ==> Numerical Columns Selected : {num_features}')
+            print(f'    ==> Categorical Columns Selected : {cat_features}\n')
 
             cat_data = df[cat_features].astype('category')
             num_data = df[num_features].astype(float)
@@ -128,10 +128,10 @@ def keep_or_drop_id(cat_data, auto=True):
                 return (id_col, cat_data.columns.tolist())
             else:
                 print('\n==> Dropping the following id columns, please enter "yes" if you agree otherwise to keep the columns, type "no"')
-                print(f"    ==ID columns to drop : {id_col}")
+                print(f"    ** ID columns to drop : {id_col}")
                 usr_rsp = input("   Enter your response :")
                 if usr_rsp.title() == "No":
-                    print(f'    == We will NOT drop {id_col}')
+                    print(f'    ** We will NOT drop {id_col}')
                     return ([], cat_data.columns.tolist())
                 elif usr_rsp.title() == "Yes":
                     cat_data = cat_data.drop(id_col, axis=1)

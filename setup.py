@@ -8,7 +8,7 @@ USERNAME = "Hassi34"
 
 setuptools.setup(
     name=f"{PROJECT_NAME}",
-    version="0.0.1.post5",
+    version="0.0.1.post6",
     author=USERNAME,
     author_email="hasanain@aicaliber.com",
     description="A high-level Python framework to automate the project lifecycle of Machine and Deep Learning Projects",
