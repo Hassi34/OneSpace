@@ -16,7 +16,7 @@ def remove_ipynb_checkpoints(path):
                 shutil.rmtree(dirpath)
 
 def get_data_loaders(VALIDATION_SPLIT, IMAGE_SIZE, BATCH_SIZE, data_dir, DATA_AUGMENTATION, train_dir = None, val_dir = None):
-  remove_ipynb_checkpoints(data_dir)
+
   if DATA_AUGMENTATION:
     augmentation = [#tt.RandomCrop(32, padding=4, padding_mode='reflect'), 
                     tt.RandomHorizontalFlip(),
@@ -42,21 +42,15 @@ def get_data_loaders(VALIDATION_SPLIT, IMAGE_SIZE, BATCH_SIZE, data_dir, DATA_AU
     val_size = int(VALIDATION_SPLIT * len(dataset))
     train_size = len(dataset) - val_size
     train_ds , val_ds = random_split(dataset, [train_size, val_size])
-  
-  remove_ipynb_checkpoints(data_dir)
 
   train_dl = DataLoader(train_ds, BATCH_SIZE, shuffle = True)
   val_dl = DataLoader(val_ds , BATCH_SIZE*2, shuffle = True)
   device = get_default_device()
-  
-  remove_ipynb_checkpoints(data_dir)
 
   train_dl = DeviceDataLoader(train_dl, device)
   val_dl = DeviceDataLoader(val_dl, device)
   training_images = len(train_ds)
   val_images = len(val_ds)
-  
-  remove_ipynb_checkpoints(data_dir)
 
   num_classes = len(train_ds.classes)
   
