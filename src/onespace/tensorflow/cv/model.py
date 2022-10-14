@@ -121,7 +121,7 @@ class Experiment:
             print("*****" * 13)
             print("Custom Model Summary")
             print("*****" * 13)
-            #self.custom_model.summary()
+            self.custom_model.summary()
             if not isinstance(self.LR_SCHEDULER, type(None)):
                 lr_schedule = learning_rate_decay(self.LR_SCHEDULER)
                 optimizer_with_lr_schedule = get_optimizer(self.OPTIMIZER, lr_schedule)
