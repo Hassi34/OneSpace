@@ -316,8 +316,7 @@ class Experiment:
         if self.db_integration_mysql:
             try:
                 save_logs_in_mysql(data = logs_data, columns=logs_header, project_name=self.project_name)
-            except Exception as e:
-                raise e
+            except:
                 print("!!! Could not record Logs in MySQL, Please check the credentials and premissions one again")
             finally:
                 pass

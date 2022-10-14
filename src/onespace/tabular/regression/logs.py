@@ -4,7 +4,7 @@ from .common import get_unique_filename
 
 
 def save_preprocessed_data(data, parent_dir, logs_dir):
-    csv_file_name = get_unique_filename("preprocessed", ext=".csv")
+    csv_file_name = get_unique_filename("preprocessed", ext="csv")
     preprocessed_data_dir = os.path.join(parent_dir, logs_dir, "Preprocessing")
     path_to_preprocessed_data = os.path.join(
         preprocessed_data_dir, csv_file_name)

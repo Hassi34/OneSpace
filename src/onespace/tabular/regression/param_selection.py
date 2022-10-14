@@ -53,10 +53,9 @@ def get_heper_param_grid(model_name):
                       'regressor__min_samples_split': np.arange(2, 8, 2),
                       'regressor__min_samples_leaf': np.arange(1, 5, 2),
                       'regressor__n_estimators':  np.arange(10, 200, 20),
-                      'regressor__criterion': ['gini', 'entropy'],
                       'regressor__max_features': ['sqrt', 'log2', None]
                       }
-    elif model_name == "SVC":
+    elif model_name == "SVR":
         param_grid = {'regressor__C': [0.1, 1, 10, 50],
                       'regressor__kernel': ['rbf', 'poly', 'sigmoid', 'linear'],
                       'regressor__gamma': ['scale', 'auto']

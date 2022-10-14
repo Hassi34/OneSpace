@@ -78,7 +78,7 @@ $ . venv/bin/activate   # activate venv
 $ pip install onespace # install onespace
 ```
 #### A) - **Tabular**<a id='tabular-'></a>
-In the section, you will learn to train a Machine Learning model with ``OneSpace``:
+In this section, you will learn to train a Machine Learning model with ``OneSpace``:
 #### i) - Training a Regression Model :<a id='reg-'></a>
 First step is to setup the initial directory. This should present a following tree structure at the beginning of the training:
 ```bash
@@ -94,7 +94,7 @@ Now let's discuss these files one by one
 This file should only be used when the database integration is required. You will be required to hold the database credentials in ``.env`` as shown below
 ```bash
 MONGO_CONN_STR="Connection String for MongoDB"
-MYSQL_HOST="data_base_host(could be an ip or domain)"
+MYSQL_HOST="database_host(could be an ip or domain)"
 MYSQL_USER="database_user_name"
 MYSQL_PASS="database_password"
 MYSQL_DB="database_name"
@@ -165,7 +165,7 @@ def training(config):
 if __name__ == "__main__":
     training(tabularConfig)
 ```
-Run the following command on the terminal to start the training job
+Run the following command in the terminal to start the training job
 ```bash
 python training.py
 ```
@@ -241,7 +241,7 @@ Now let's discuss these files one by one
 This file should only be used when the database integration is required. You will be required to hold the database credentials in ``.env`` as shown below
 ```bash
 MONGO_CONN_STR="Connection String for MongoDB"
-MYSQL_HOST="data_base_host(could be an ip or domain)"
+MYSQL_HOST="database_host(could be an ip or domain)"
 MYSQL_USER="database_user_name"
 MYSQL_PASS="database_password"
 MYSQL_DB="database_name"
@@ -312,7 +312,7 @@ def training(config):
 if __name__ == "__main__":
     training(tabularConfig)
 ```
-Run the following command on the terminal to start the training job
+Run the following command in the terminal to start the training job
 ```bash
 python training.py
 ```
@@ -421,7 +421,7 @@ Now let's discuss these files one by one
 This file should only be used when the database integration is required. You will be required to hold the database credentials in ``.env`` as shown below
 ```bash
 MONGO_CONN_STR="Connection String for MongoDB"
-MYSQL_HOST="data_base_host(could be an ip or domain)"
+MYSQL_HOST="database_host(could be an ip or domain)"
 MYSQL_USER="database_user_name"
 MYSQL_PASS="database_password"
 MYSQL_DB="database_name"
@@ -499,7 +499,7 @@ def training(config):
 if __name__ == "__main__":
     training(tensorflowConfig)
 ```
-Run the following command on the terminal to start the training job
+Run the following command in the terminal to start the training job
 ```bash
 python training.py
 ```
@@ -617,7 +617,7 @@ Now let's discuss these files one by one
 This file should only be used when the database integration is required. You will be required to hold the database credentials in ``.env`` as shown below
 ```bash
 MONGO_CONN_STR="Connection String for MongoDB"
-MYSQL_HOST="data_base_host(could be an ip or domain)"
+MYSQL_HOST="database_host(could be an ip or domain)"
 MYSQL_USER="database_user_name"
 MYSQL_PASS="database_password"
 MYSQL_DB="database_name"
@@ -693,7 +693,7 @@ def training(config):
 if __name__ == "__main__":
     training(pytorchConfig)
 ```
-Run the following command on the terminal to start the training job
+Run the following command in the terminal to start the training job
 ```bash
 python training.py
 ```
@@ -783,8 +783,8 @@ Yes, Please! We believe that there is alot of oportunity to make Machine Learnin
 All the services which are being provided by ``OneSpace`` could be managed in a single directory without having to leave your workspace. A user only needs to take care of two things before running a training job:
 * Setup the relavent configurations in ``config.py``.<br>
 * Check if you are importing the right module in ``training.py``.<br>
-Now type ``python training.py`` on the terminal and hit enter.<br>
-Voila, you have a trained production ready model saved in the workspace, Great Work!
+* Now type ``python training.py`` on the terminal and hit enter.<br>
+* Voila, you have a trained production ready model saved in the workspace, Great Work!
 #### **Please give this repository a star if you find our work useful, Thank you! 🙏**<br><br>
 
 **Copyright &copy; 2022 OneSpace** <br>
