@@ -4,9 +4,9 @@
 data_dir = "tabular_data"
 csv_file_name = "insurance.csv"
 target_column ="actual_charges"
-autopilot = False    # True if you want to automatically configure everything for the training job and run the job without user interaction else, False.  
+autopilot = True    # True if you want to automatically configure everything for the training job and run the job without user interaction else, False.  
 eda = True          # Exploratory Data Analysis (EDA)
-metrics = 'r2_score' # selection_for_classificaton = ['accuracy', 'f1_score', 'recall', 'precision']
+metrics = 'mean_squared_error' # selection_for_classificaton = ['accuracy', 'f1_score', 'recall', 'precision']
                      # selection_for_regression = ['r2_score', 'mean_absolute_error','mean_squared_error', 'mean_absolute_percentage_error',
                      # 'median_absolute_error', 'explained_variance_score']
 validation_split = 0.20
@@ -43,5 +43,5 @@ executed_by = 'hasanain'
 # Guideline for creating .env is available on project description main page
 from dotenv import load_dotenv
 load_dotenv()
-db_integration_mysql = True
-db_integration_mongodb = True 
+db_integration_mysql = False
+db_integration_mongodb = False 

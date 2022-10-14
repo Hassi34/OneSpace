@@ -171,8 +171,7 @@ class Experiment:
                 save_logs_in_mongo(self.project_name, dict(
                     zip(logs_header, logs_data)))
             except:
-                print(
-                    "!!! Could not record Logs in MongoDB, Please check the connection string and premissions one again")
+                print("!!! Could not record Logs in MongoDB, Please check the connection string and premissions one again")
             finally:
                 pass
         if self.db_integration_mysql:
@@ -180,8 +179,7 @@ class Experiment:
                 save_logs_in_mysql(
                     data=logs_data, columns=logs_header, project_name=self.project_name)
             except:
-                print(
-                    "!!! Could not record Logs in MySQL, Please check the credentials and premissions one again")
+                print("!!! Could not record Logs in MySQL, Please check the credentials and premissions one again")
             finally:
                 pass
         print("\n")

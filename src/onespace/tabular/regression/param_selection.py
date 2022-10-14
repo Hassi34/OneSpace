@@ -48,11 +48,11 @@ def get_heper_param_grid(model_name):
                       }
 
     elif model_name == "RandomForestRegressor":
-        param_grid = {'regressor__max_depth': [10, 30, 60, 70, None],
-                      'regressor__bootstrap': [True, False],
-                      'regressor__min_samples_split': np.arange(2, 8, 2),
-                      'regressor__min_samples_leaf': np.arange(1, 5, 2),
-                      'regressor__n_estimators':  np.arange(10, 200, 20),
+        param_grid = {#'regressor__max_depth': [10, 30, 60, 70, None],
+                      #'regressor__bootstrap': [True, False],
+                      #'regressor__min_samples_split': np.arange(2, 8, 2),
+                      #'regressor__min_samples_leaf': np.arange(1, 5, 2),
+                      #'regressor__n_estimators':  np.arange(10, 200, 20),
                       'regressor__max_features': ['sqrt', 'log2', None]
                       }
     elif model_name == "SVR":

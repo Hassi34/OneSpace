@@ -222,18 +222,12 @@ class TrainingFlow:
             metrics_dict, index=models.keys()).sort_values(by=self.sort_by, ascending=ascending)
 
     def base_model_report(self):
-        self.best_base_model = self.model_training_results.idxmax()
+        self.best_base_model = self.model_training_results.index[0]
         self.best_base_pipe = Pipeline([
             ('preprocessing', self.prep_pipeline),
-            ('Regressor', self.models[self.best_base_model])
+            ('regressor', self.models[self.best_base_model])
         ])
         self.best_base_pipe.fit(self.X_train, self.y_train)
-        y_predicted = self.best_base_pipe.predict(self.X_val)
-        print("\n")
-        print("*****" * 13)
-        print(
-            f'Classificatin Report With "{self.best_base_model}" as Base Model')
-        print("*****" * 13)
 
     def hyper_param_tuninig_run(self):
         best_models = self.best_model
@@ -322,12 +316,8 @@ class TrainingFlow:
         print(f"\n ==> {self.pipe_path_to_save}\n")
 
     def get_best_model(self):
-        if self.auto:
-            self.best_model = self.model_training_results[self.sort_by].idxmax(
-            )
-        else:
-            self.best_model = self.model_training_results[self.sort_by].idxmax(
-            )
+        self.best_model = self.model_training_results.index[0]
+        if not self.auto:
             usr_rsp = input(
                 f'\n ==> "{self.best_model}" is selected as the best model for hyperparameter tuning, type "yes" if you agree with the selection otherwise "no" :')
             print('\n')
