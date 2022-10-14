@@ -214,9 +214,12 @@ class TrainingFlow:
                 self.y_train, y_predicted_train), 3))
             metrics_dict['explained_variance_score_val'].append(round(explained_variance_score(
                 self.y_val, y_predicted), 3))
-
+        if self.metrics in ['mean_absolute_error','mean_squared_error', 'mean_absolute_percentage_error','median_absolute_error', 'explained_variance_score']:
+            ascending = True
+        else:
+            ascending = False
         self.model_training_results = pd.DataFrame(
-            metrics_dict, index=models.keys()).sort_values(by=self.sort_by, ascending=False)
+            metrics_dict, index=models.keys()).sort_values(by=self.sort_by, ascending=ascending)
 
     def base_model_report(self):
         self.best_base_model = self.model_training_results[self.sort_by].idxmax(
