@@ -222,8 +222,7 @@ class TrainingFlow:
             metrics_dict, index=models.keys()).sort_values(by=self.sort_by, ascending=ascending)
 
     def base_model_report(self):
-        self.best_base_model = self.model_training_results[self.sort_by].idxmax(
-        )
+        self.best_base_model = self.model_training_results.idxmax()
         self.best_base_pipe = Pipeline([
             ('preprocessing', self.prep_pipeline),
             ('Regressor', self.models[self.best_base_model])
