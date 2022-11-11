@@ -50,11 +50,11 @@ Following are the major contents to follow, you can jump to any section:
 >   2. [Usage](#use-)
 >   3. [Getting Started with OneSpace (Tutorials)](#tutorials-)<br>
 >      - [Tabular](#tabular-)<br>
->        - [Training a Regression Model](#reg-)<br>
->        - [Training a Classification Model](#clf-)<br>
+>        - [Training a Regression Model With Tabular Data](#reg-)<br>
+>        - [Training a Classification Model With Tabular Data](#clf-)<br>
 >      - [Computer Vision](#cv-)<br>
->        - [Training an Image Classification Model with Tensorflow](#tf-imgclf)<br>
->        - [Training an Image Classification Model with PyTorch](#pytorch-imgcls)<br>
+>        - [Training an Image Classification Model with OneSpace(Tensorflow)](#tf-imgclf)<br>
+>        - [Training an Image Classification Model with OneSpace(PyTorch)](#pytorch-imgcls)<br>
 >   4. [Contributing](#contributing-)
 >   5. [Conclusion](#conclusion-)
 ### 🔗 Project Link
