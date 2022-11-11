@@ -8,8 +8,10 @@ USERNAME = "Hassi34"
 
 setuptools.setup(
     name=f"{PROJECT_NAME}",
-    version="0.0.2",
-    author=USERNAME,
+    include_package_data = True,
+    version="0.0.3dev1",
+    license='MIT',
+    author="Hasanain Mehmood",
     author_email="hasanain@aicaliber.com",
     description="A high-level Python framework to automate the project lifecycle of Machine and Deep Learning Projects",
     long_description=long_description,
@@ -19,6 +21,7 @@ setuptools.setup(
         "Bug Tracker": f"https://github.com/{USERNAME}/{PROJECT_NAME}/issues",
     },
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
