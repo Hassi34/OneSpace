@@ -35,9 +35,6 @@
         <img alt="Github Actions Status" src="https://img.shields.io/github/actions/workflow/status/hassi34/onespace/cicd.yml?branch=main">
     </a>
     <a href="https://pypi.org/project/onespace">
-        <img alt="Github Actions Status" src="https://img.shields.io/github/checks-status/hassi34/onespace/main?color=gree">
-    </a>
-    <a href="https://pypi.org/project/onespace">
         <img alt="Code Size" src="https://img.shields.io/github/languages/code-size/hassi34/onespace?color=g">
     </a>
     <a href="https://pypi.org/project/onespace">
