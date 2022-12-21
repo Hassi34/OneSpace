@@ -32,7 +32,10 @@
         <img alt="Open Issues" src="https://img.shields.io/github/issues/hassi34/onespace">
     </a>
     <a href="https://pypi.org/project/onespace">
-        <img alt="Github Actions Status" src="https://img.shields.io/github/workflow/status/hassi34/onespace/Publish%20Python%20distributions%20to%20PyPI%20and%20TestPyPI?event=push">
+        <img alt="Github Actions Status" src="https://img.shields.io/github/actions/workflow/status/hassi34/onespace/cicd.yml?branch=main">
+    </a>
+    <a href="https://pypi.org/project/onespace">
+        <img alt="Github Actions Status" src="https://img.shields.io/github/checks-status/hassi34/onespace/main?color=gree">
     </a>
     <a href="https://pypi.org/project/onespace">
         <img alt="Code Size" src="https://img.shields.io/github/languages/code-size/hassi34/onespace?color=g">
